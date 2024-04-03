@@ -2,29 +2,25 @@
 
 <br><br>
 # instalacion:
+<br><br>
 
-Clona el repositorio.
-<div>
-https://github.com/relativitydev3/CyberScope.git
-</div>
 
-Se debe de instalar la dependencia python-nmap
-<div>
-  pip install python-nmap
-</div>
-<br>
-Navega al repositorio CyberScope
-<div>
-  cd CyberScope
-</div>
-<br>
-Dele permiso de egecusion CyberScope
-<div>
-  chmod +x CyberScope.py
-</div>
+
+Clona el repositorio de CyberScope desde GitHub. Puedes hacerlo ejecutando el siguiente comando en tu terminal:
+git clone https://github.com/relativitydev3/CyberScope.git
 
 <br>
-ejecútelo
-<div>
-  ./CyberScope.py
-</div>
+Asegúrate de tener instalada la dependencia python-nmap. Puedes instalarla ejecutando el siguiente comando en tu terminal:
+pip install python-nmap
+
+<br>
+Navega al directorio del repositorio CyberScope. Puedes hacerlo ejecutando el siguiente comando en tu terminal:
+cd CyberScope
+
+<br>
+Otorga permisos de ejecución al archivo CyberScope.py. Puedes hacerlo ejecutando el siguiente comando en tu terminal:
+chmod +x CyberScope.py
+
+<br>
+Ejecuta el archivo CyberScope.py. Puedes hacerlo ejecutando el siguiente comando en tu terminal:
+./CyberScope.py

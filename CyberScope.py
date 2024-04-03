@@ -1,8 +1,6 @@
-from queue import Full
+#!/usr/bin/python3
 import nmap
 print("""
-
-
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 ░░░╔════════════════════════════════════════════════╗░░░░
 ░░░║░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░║░░░░
@@ -15,9 +13,10 @@ print("""
 ░░░║░░░╚═══╝╚═╗╔╝╚══╝╚══╝╚╝░╚═══╝╚══╝╚══╝║╔═╝╚══╝░░░║░░░░
 ░░░║░░░░░░░░╔═╝║░░░░░░░░░░░░░░░░░░░░░░░░░║║░░░░░░░░░║░░░░
 ░░░║░░░░░░░░╚══╝░░░░░░░░░░░░░░░░░░░░░░░░░╚╝░░░░░░░░░║░░░░
+░░░║░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░║░░░░
+░░░║░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░║░░░░
 ░░░╚════════════════════════════════════════════════╝░░░░
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-
 """)
 languages = input(""" 
                 Seleccione idioma de preferencia.
@@ -25,8 +24,6 @@ languages = input("""
                 1: Español.
                 2: English.
                 """)
-
-
 
 print("""
       __________________________________________________
@@ -73,8 +70,6 @@ ____________________________¶¶¶¶______¶___________
 ______________________________¶¶_____¶¶___________
 _______________________________¶¶¶¶¶¶¶____________
 __________________________________________________
-
-      
       """)
 
 
@@ -85,26 +80,27 @@ if languages==1:
     Opction = input(""" 
                     Select the number of the option you want to apply
                     1: Escanea por IP.
-                    2: Escanea por IP /24.
-                    3: Búsqueda silenciosa.
-                    4: búsqueda rápida.
+                    2: Búsqueda silenciosa.
+                    3: búsqueda rápida.
+                    4: Exit.
                     """)
 else:
     Opction = input(""" 
                     Select the number of the option you want to apply
                     1: Scamp IP.
-                    2: Scamp IP /24.
-                    3: Silent search.
-                    4: quick search.
+                    2: Silent search.
+                    3: quick search.
+                    4: Exit.
                     """)
     
 
+host = input("[+] IP: ")
+nm = nmap.PortScanner()
 
-if Opction==1:
-    host = input("[+] IP: ")
-    nm = nmap.PortScanner()
-    resul = nm.scan(host)
-
+count=0
+parametros="-p"
+if Opction=="1":
+    resul = nm.scan(host,arguments=" -Pn -n -sC -p- -sV  ")
     print("----------------------------------------------------")
     print("Host : %s " % host)
     for proto in nm[host].all_protocols():
@@ -115,8 +111,56 @@ if Opction==1:
         sorted(lport)
         for port in lport:
             print("port : %s\tstate : %s" % (port, nm[host][proto][port]["state"]))
-# elif Opction==2:
+            if count==0:
+                parametros=parametros +" "+ str(port)
+                print(f"Puertos: {parametros} IP: {str(host)}")
+            
+                count=1
+        else:
+            parametros=parametros +","+ str(port)
+            print(f"Puertos: {parametros} IP: {str(host)}")
     
+if Opction=="2":
+    resul = nm.scan(host,arguments="-T10 -sS -Pn -f -n -sV -p- --min-rate=1000 --script 'vuln' ")
+    print("----------------------------------------------------")
+    print("Host : %s " % host)
+    for proto in nm[host].all_protocols():
+        print("----------")
+        print("Protocol : %s" % proto)
 
-#     # pip install python-nmap
+        lport = nm[host][proto].keys()
+        sorted(lport)
+        for port in lport:
+            print("port : %s\tstate : %s" % (port, nm[host][proto][port]["state"]))
+            if count==0:
+                parametros=parametros +" "+ str(port)
+                count=1
+                print(f"Puertos: {parametros} IP: {str(host)}")   
+
+        else:
+            parametros=parametros +","+ str(port)
+            print(f"Puertos: {parametros} IP: {str(host)}")   
+
+if Opction=="3":
+    resul = nm.scan(host,arguments="-T4 -Pn -n -sV -p- --min-rate=5000 --script 'vuln' ")
+    print("----------------------------------------------------")
+    print("Host : %s " % host)
+    for proto in nm[host].all_protocols():
+        print("----------")
+        print("Protocol : %s" % proto)
+
+        lport = nm[host][proto].keys()
+        sorted(lport)
+        for port in lport:
+            print("port : %s\tstate : %s" % (port, nm[host][proto][port]["state"]))
+            if count==0:
+                parametros=parametros +" "+ str(port)
+                count=1
+                print(f"Puertos: {parametros} IP: {str(host)}")   
+
+        else:
+            parametros=parametros +","+ str(port)
+            print(f"Puertos: {parametros} IP: {str(host)}")  
+
+# pip install python-nmap
 

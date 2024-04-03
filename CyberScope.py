@@ -1,6 +1,41 @@
 #!/usr/bin/python3
 import nmap
-print("""
+import os
+from colorama import Fore, Style
+
+
+def cls():
+    os.system("cls" if os.name == "nt" else "clear")
+
+
+
+    
+def scam(host,nm,puerto):
+    count=0
+    print("----------------------------------------------------")
+    print(Fore.BLUE +"Host : %s " % host)
+    for proto in nm[host].all_protocols():
+        print("----------")
+        print(Fore.BLUE +"Protocol : %s" % proto + Style.RESET_ALL)
+
+        lport = nm[host][proto].keys()
+        sorted(lport)
+        for port in lport:
+            print(Fore.BLUE +"port : %s\tstate : %s" % (port, nm[host][proto][port]["state"])+ Style.RESET_ALL)
+            if count==0:
+                puerto=puerto +" "+ str(port)
+                print(Fore.BLUE +f"Puertos: {puerto} IP: {str(host)}"+ Style.RESET_ALL)
+            
+                count=1
+        else:
+            puerto=puerto +","+ str(port)
+            print(Fore.BLUE +f"Puertos: {puerto} IP: {str(host)}"+ Style.RESET_ALL)
+
+
+
+
+
+print(Fore.BLUE + """
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 ░░░╔════════════════════════════════════════════════╗░░░░
 ░░░║░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░║░░░░
@@ -17,15 +52,16 @@ print("""
 ░░░║░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░║░░░░
 ░░░╚════════════════════════════════════════════════╝░░░░
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-""")
+""" + Style.RESET_ALL)
 languages = input(""" 
-                Seleccione idioma de preferencia.
-                Select preferred language.
-                1: Español.
-                2: English.
-                """)
+Seleccione idioma de preferencia.
+Select preferred language.
+    1: Español.
+    2: English.
+""")
 
-print("""
+cls()
+print(Fore.MAGENTA + """
       __________________________________________________
 __________________¶¶¶¶¶¶¶¶¶¶¶¶¶¶__________________
 ______________¶¶¶¶_____________¶¶¶¶¶______________
@@ -70,79 +106,42 @@ ____________________________¶¶¶¶______¶___________
 ______________________________¶¶_____¶¶___________
 _______________________________¶¶¶¶¶¶¶____________
 __________________________________________________
-      """)
+      """ + Style.RESET_ALL)
 
 
-Opction=0
+Opction="0"
 languagesStatus=False
-if languages==1:
+if languages=="1":
     languagesStatus=True
-    Opction = input(""" 
-                    Select the number of the option you want to apply
-                    1: Escanea por IP.
-                    2: Búsqueda silenciosa.
-                    3: búsqueda rápida.
-                    4: Exit.
-                    """)
+    Opction = input(Fore.MAGENTA + """ 
+Select the number of the option you want to apply
+    1: Escanea por IP.
+    2: Búsqueda silenciosa.
+    3: búsqueda rápida.
+    4: Exit.
+"""+ Style.RESET_ALL)
 else:
-    Opction = input(""" 
-                    Select the number of the option you want to apply
-                    1: Scamp IP.
-                    2: Silent search.
-                    3: quick search.
-                    4: Exit.
-                    """)
-    
+    Opction = input(Fore.MAGENTA + """ 
+Select the number of the option you want to apply
+    1: Scamp IP.
+    2: Silent search.
+    3: quick search.
+    4: Exit.
+"""+ Style.RESET_ALL)
 
-host = input("[+] IP: ")
+
+
+host = input(Fore.BLUE +"[+] IP: ")
 nm = nmap.PortScanner()
 
-count=0
-parametros="-p"
+puerto="-p"
+
 if Opction=="1":
     resul = nm.scan(host,arguments=" -Pn -n -sC -p- -sV  ")
-    print("----------------------------------------------------")
-    print("Host : %s " % host)
-    for proto in nm[host].all_protocols():
-        print("----------")
-        print("Protocol : %s" % proto)
-
-        lport = nm[host][proto].keys()
-        sorted(lport)
-        for port in lport:
-            print("port : %s\tstate : %s" % (port, nm[host][proto][port]["state"]))
-            if count==0:
-                parametros=parametros +" "+ str(port)
-                print(f"Puertos: {parametros} IP: {str(host)}")
-            
-                count=1
-        else:
-            parametros=parametros +","+ str(port)
-            print(f"Puertos: {parametros} IP: {str(host)}")
+    scam(host,nm,puerto)
     
 if Opction=="2":
-    resul = nm.scan(host,arguments="-T10 -sS -Pn -f -n -sV -p- --min-rate=1000 --script 'vuln' ")
-    print("----------------------------------------------------")
-    print("Host : %s " % host)
-    for proto in nm[host].all_protocols():
-        print("----------")
-        print("Protocol : %s" % proto)
-
-        lport = nm[host][proto].keys()
-        sorted(lport)
-        for port in lport:
-            print("port : %s\tstate : %s" % (port, nm[host][proto][port]["state"]))
-            if count==0:
-                parametros=parametros +" "+ str(port)
-                count=1
-                print(f"Puertos: {parametros} IP: {str(host)}")   
-
-        else:
-            parametros=parametros +","+ str(port)
-            print(f"Puertos: {parametros} IP: {str(host)}")   
-
-if Opction=="3":
-    resul = nm.scan(host,arguments="-T4 -Pn -n -sV -p- --min-rate=5000 --script 'vuln' ")
+    resul = nm.scan(host,arguments="-sS -Pn -f -n -sV -p- --min-rate=1000 --script 'vuln' ")
     print("----------------------------------------------------")
     print("Host : %s " % host)
     for proto in nm[host].all_protocols():
@@ -161,6 +160,12 @@ if Opction=="3":
         else:
             parametros=parametros +","+ str(port)
             print(f"Puertos: {parametros} IP: {str(host)}")  
+       
+
+if Opction=="3":
+    resul = nm.scan(host,arguments="-T4 -Pn -n -sV -p- --min-rate=5000 --script 'vuln' ")
+    scam(host,nm,puerto)
+    
 
 # pip install python-nmap
 

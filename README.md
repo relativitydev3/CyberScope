@@ -9,6 +9,8 @@
 
 ### Español
 
+El código proporcionado es un programa que utiliza la herramienta Nmap para realizar escaneos de red y encontrar vulnerabilidades. Ofrece varios modos de escaneo, como la búsqueda por IP, búsqueda silenciosa y búsqueda rápida. Es importante tener en cuenta que este código aún está en desarrollo y puede recibir actualizaciones en el futuro.
+
 1. Clona el repositorio de CyberScope desde GitHub. Puedes hacerlo ejecutando el siguiente comando en tu terminal:
     ```bash
     git clone https://github.com/relativitydev3/CyberScope.git
@@ -35,6 +37,9 @@
     ```
 
 ### Inglés
+
+The provided code is a program that utilizes the Nmap tool to perform network scans and identify vulnerabilities. It offers various scanning modes, such as scanning by IP, silent search, and quick search. It's important to note that this code is still under development and may receive updates in the future.
+
 
 1. Clone the CyberScope repository from GitHub. You can do this by running the following command in your terminal:
     ```bash
